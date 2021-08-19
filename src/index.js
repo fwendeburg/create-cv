@@ -1,13 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
 
-import './styles/reset.css';
-import './styles/index.css';
+import App from './components/App';
+import { ResetCSS } from './styles/ResetCSS.style.js';
+import { ApplyFont } from './styles/ApplyFont.style.js';
+
+import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
   <React.StrictMode>
+    <ResetCSS />
+    <ApplyFont />
     <App />
   </React.StrictMode>,
   document.getElementById('root')
