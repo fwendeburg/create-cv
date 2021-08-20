@@ -1,23 +1,33 @@
 import React from 'react';
-import AppBar from '@material-ui/core/AppBar';
-import Box from '@material-ui/core/Box';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
+import styled from 'styled-components';
 
-class NavBar extends React.Component {
+const NavbarContainer = styled.div`
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 70px;
+    background-color: blue;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(51, 51, 51);
+`
+
+const NavbarTitle = styled.h1`
+    font-size: 36px;
+    font-weight: 700;
+    color: rgb(255, 255, 255);
+`
+
+class Navbar extends React.Component {
     render() {
         return (
-            <Box sx={{ flexGrow: 1 }}>
-                <AppBar position="static">
-                    <Toolbar>
-                        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                            CV-App
-                        </Typography>
-                    </Toolbar>
-                </AppBar>
-            </Box>
+            <NavbarContainer>
+                <NavbarTitle>CV Builder</NavbarTitle>
+            </NavbarContainer>
         );
-    }  
+    }
 }
 
-export default NavBar;
+export default Navbar;
