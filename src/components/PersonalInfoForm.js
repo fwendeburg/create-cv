@@ -8,24 +8,24 @@ class PersonalInfoForm extends React.Component {
             <>
                 <FormTitle>Personal Information</FormTitle>
                 <InputContainer>
-                    <InputLabel htmlFor="first-name">First Name</InputLabel>
-                    <TextInput type="text" id="first-name"/>
+                    <InputLabel htmlFor="first-name">First Name*</InputLabel>
+                    <TextInput type="text" id="first-name" required/>
                 </InputContainer>
                 <InputContainer>
-                    <InputLabel htmlFor="last-name">Last Name</InputLabel>
-                    <TextInput type="text" id="last-name"/>
+                    <InputLabel htmlFor="last-name">Last Name*</InputLabel>
+                    <TextInput type="text" id="last-name" required/>
                 </InputContainer>
                 <InputContainer>
-                    <InputLabel htmlFor="role">Current Role</InputLabel>
-                    <TextInput type="text" id="role"/>
+                    <InputLabel htmlFor="role">Current Role*</InputLabel>
+                    <TextInput type="text" id="role" required/>
                 </InputContainer>
                 <InputContainer>
-                    <InputLabel htmlFor="email">Email</InputLabel>
-                    <TextInput type="email" id="email"/>
+                    <InputLabel htmlFor="email">Email*</InputLabel>
+                    <TextInput type="email" id="email" required/>
                 </InputContainer>
                 <InputContainer>
-                    <InputLabel htmlFor="phone-number">Phone Number</InputLabel>
-                    <TextInput type="text" id="phone-number"/>
+                    <InputLabel htmlFor="phone-number">Phone Number*</InputLabel>
+                    <TextInput type="tel" id="phone-number" required/>
                 </InputContainer>
                 <InputContainer>
                     <InputLabel htmlFor="adress">Adress</InputLabel>

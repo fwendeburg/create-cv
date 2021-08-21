@@ -39,7 +39,7 @@ class Main extends React.Component {
             currentForm: 'PersonalInfoForm'
         };
 
-        this.nextForm = this.nextForm.bind(this);
+        this.handleNextBtnCLick = this.handleNextBtnCLick.bind(this);
         this.previousForm = this.previousForm.bind(this);
     }
 
@@ -63,6 +63,80 @@ class Main extends React.Component {
         this.setState({currentForm: this.state.forms[currentFormIndex - 1]});
     }
 
+    verifyInputValidity() {
+        let inputsValid = true;
+
+        const inputs = document.querySelectorAll('input');
+        let requiredInputs = [];
+        let invalidInputs = [];
+        let validInputs = [];
+
+        inputs.forEach(input => {
+            if (input.hasAttribute('required')) {
+                requiredInputs.push(input);
+            }
+        });
+
+        requiredInputs.forEach(input => {
+            const emailRegEx = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            let today = new Date();
+
+            if (input.type !== 'text') {
+                if ((input.type === 'number' || input.type === 'tel') && /[A-Za-z]/.test(input.value)) {
+                    inputsValid = false;
+
+                    invalidInputs.push(input);
+                }
+                else if (input.type === 'email' && !emailRegEx.test(input.value)) {
+                    inputsValid = false;
+
+                    invalidInputs.push(input);
+                }
+                else if (input.type === 'date' && false) {
+                    // ToDo.
+                }
+                else {
+                    validInputs.push(input);
+                }
+            }
+            if (input.value === '') {
+                inputsValid = false;
+
+                invalidInputs.push(input);
+            }
+            else {
+                validInputs.push(input);
+            }
+        });
+
+        validInputs.forEach(input => {
+            let label = input.parentNode.childNodes[0];
+
+            label.style.color = null;
+        })
+
+        return {inputsValid, invalidInputs};
+    }
+
+    showInvalidInputs(inputs) {
+        inputs.forEach(input => {
+            let label = input.parentNode.childNodes[0];
+
+            label.style.color = 'red';
+        });
+    }
+
+    handleNextBtnCLick() {
+        let areInputsValid = this.verifyInputValidity();
+
+        if (areInputsValid.inputsValid) {
+            this.nextForm();
+        }
+        else {
+            this.showInvalidInputs(areInputsValid.invalidInputs);
+        }
+    }
+
     render() {
         return (
             <MainContainer>
@@ -74,7 +148,7 @@ class Main extends React.Component {
 
                 <ContentContainer>
                     {this.state.currentForm === 'WorkExpForm'? <Button color="#21BA45" text="generate pdf" hoverColor="#1FA83F"/> : null}
-                    {this.state.currentForm === 'WorkExpForm'? null : <Button onButtonClicked={this.nextForm} color="#21BA45" text="next" hoverColor="#1FA83F"/>}
+                    {this.state.currentForm === 'WorkExpForm'? null : <Button onButtonClicked={this.handleNextBtnCLick} color="#21BA45" text="next" hoverColor="#1FA83F"/>}
                     {this.state.currentForm === 'PersonalInfoForm'? null : <Button onButtonClicked={this.previousForm} color="#D54545" text="back" hoverColor="#B63B3B"/>}
                 </ContentContainer>
             </MainContainer>
