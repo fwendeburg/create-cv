@@ -2,11 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 
 const FooterContainer = styled.div`
-    position: absolute;
-    bottom: 0;
-    left: 0;
     width: 100%;
-    height: 30px;
+    height: 40px;
     background-color: rgb(51, 51, 51);
     display: flex;
     align-items: center;
