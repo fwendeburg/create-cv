@@ -36,6 +36,7 @@ class Main extends React.Component {
     constructor(props) {
         super(props)
 
+        this.handleNextBtnCLick = this.handleNextBtnCLick.bind(this);
         this.deleteEduForm = this.deleteEduForm.bind(this);
         this.deleteWorkForm = this.deleteWorkForm.bind(this);
         this.addWorkExpForm = this.addWorkExpForm.bind(this);
@@ -44,10 +45,11 @@ class Main extends React.Component {
         this.previousForm = this.previousForm.bind(this);
 
         this.state = {
-            forms: ['PersonalInfoForm', 'EducationForm', 'WorkExpForm'],
+            form: ['PersonalInfoForm', 'EducationForm', 'WorkExpForm'],
             currentForm: 'PersonalInfoForm',
-            eduForms: [<EducationForm addEduForm={this.addEduForm} key="0" formId={uniqid()} deleteEduForm={this.deleteEduForm}/>],
-            workExpForms: [<WorkExpForm addWorkExpForm={this.addWorkExpForm} key="0" formId={uniqid()} deleteWorkForm={this.deleteWorkForm}/>]
+            personalForm: <PersonalInfoForm values={{}}/>,
+            eduForms: [<EducationForm addEduForm={this.addEduForm} key="0" formId={uniqid()} deleteEduForm={this.deleteEduForm} values={{}}/>],
+            workExpForms: [<WorkExpForm addWorkExpForm={this.addWorkExpForm} key="0" formId={uniqid()} deleteWorkForm={this.deleteWorkForm}/>],
         };
     }
 
@@ -71,83 +73,8 @@ class Main extends React.Component {
         this.setState({currentForm: this.state.forms[currentFormIndex - 1]});
     }
 
-    // Form validation fns, not used anymore.
-    verifyInputValidity() {
-        let inputsValid = true;
-
-        const inputs = document.querySelectorAll('input');
-        let requiredInputs = [];
-        let invalidInputs = [];
-        let validInputs = [];
-
-        inputs.forEach(input => {
-            if (input.hasAttribute('required')) {
-                requiredInputs.push(input);
-            }
-        });
-
-        requiredInputs.forEach(input => {
-            const emailRegEx = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-            if (input.type !== 'text') {
-                if ((input.type === 'number' || input.type === 'tel') && /[A-Za-z]/.test(input.value)) {
-                    inputsValid = false;
-
-                    invalidInputs.push(input);
-                }
-                else if (input.type === 'email' && !emailRegEx.test(input.value)) {
-                    inputsValid = false;
-
-                    invalidInputs.push(input);
-                }
-                else if (input.type === 'date' && false) {
-                    // ToDo.
-                }
-                else {
-                    validInputs.push(input);
-                }
-            }
-            if (input.value === '') {
-                inputsValid = false;
-
-                invalidInputs.push(input);
-            }
-            else {
-                validInputs.push(input);
-            }
-        });
-
-        validInputs.forEach(input => {
-            let label = input.parentNode.childNodes[0];
-
-            label.style.color = null;
-        })
-
-        return {inputsValid, invalidInputs};
-    }
-
-    showInvalidInputs(inputs) {
-        inputs.forEach(input => {
-            let label = input.parentNode.childNodes[0];
-
-            label.style.color = 'red';
-        });
-    }
-
-    handleNextBtnCLick() {
-        let areInputsValid = this.verifyInputValidity();
-
-        if (areInputsValid.inputsValid) {
-            this.nextForm();
-        }
-        else {
-            this.showInvalidInputs(areInputsValid.invalidInputs);
-        }
-    }
-    // End form valdiation fns.
-
     addEduForm() {
-        this.setState({eduForms: [...this.state.eduForms, <EducationForm addEduForm={this.addEduForm} key={this.state.eduForms.length} formId={uniqid()} deleteEduForm={this.deleteEduForm}/>]});
+        this.setState({eduForms: [...this.state.eduForms, <EducationForm addEduForm={this.addEduForm} key={this.state.eduForms.length} formId={uniqid()} deleteEduForm={this.deleteEduForm} values={{}}/>]});
     }
 
     addWorkExpForm() {
@@ -188,18 +115,64 @@ class Main extends React.Component {
         );
     }
 
+    showPersonalInfoForm() {
+        return (
+            <>
+                <FormTitle>Personal Information</FormTitle>
+                {this.state.personalForm}
+            </>
+        );
+    }
+
+    handleNextBtnCLick() {
+        let valuesObj;
+
+        if (this.state.currentForm === 'PersonalInfoForm') {
+            valuesObj = {
+                name: document.querySelector("#first-name").value,
+                lname: document.querySelector("#last-name").value,
+                curRole: document.querySelector("#role").value,
+                email: document.querySelector("#email").value,
+                pnumber: document.querySelector("#phone-number").value,
+                adress: document.querySelector("#adress").value,
+            }
+
+            this.setState({personalForm: <PersonalInfoForm values={valuesObj}/>});
+        }
+        else if (this.state.currentForm === 'EducationForm') {
+            const forms = document.querySelector('#forms').childNodes;
+            let valuesObj;
+            
+            for (let i = 1; i < forms.length; i++) {
+                valuesObj = {
+                    id: forms[i].id,
+                    degree: document.querySelector("#degree-" + forms[i].id).value,
+                    university: document.querySelector("#university-" + forms[i].id).value,
+                    gpa: document.querySelector("#gpa-" + forms[i].id).value,
+                    from: document.querySelector("#from-" + forms[i].id).value,
+                    to: document.querySelector("#to-" + forms[i].id).value,
+                    desciption: document.querySelector("#description-" + forms[i].id).value
+                };
+
+
+            }
+        }
+
+        this.nextForm();
+    }
+
     render() {
         return (
             <MainContainer>
-                <ContentContainer>
-                    {this.state.currentForm === 'PersonalInfoForm'? <PersonalInfoForm /> : null}
+                <ContentContainer id="forms">
+                    {this.state.currentForm === 'PersonalInfoForm'? this.showPersonalInfoForm() : null}
                     {this.state.currentForm === 'EducationForm'? this.showEduForms() : null}
                     {this.state.currentForm === 'WorkExpForm'? this.showWorkExpForms() : null}
                 </ContentContainer>
 
                 <ContentContainer>
                     {this.state.currentForm === 'WorkExpForm'? <Button color="#21BA45" text="generate pdf" hoverColor="#1FA83F"/> : null}
-                    {this.state.currentForm === 'WorkExpForm'? null : <Button onButtonClicked={this.nextForm} color="#21BA45" text="next" hoverColor="#1FA83F"/>}
+                    {this.state.currentForm === 'WorkExpForm'? null : <Button onButtonClicked={this.handleNextBtnCLick} color="#21BA45" text="next" hoverColor="#1FA83F"/>}
                     {this.state.currentForm === 'PersonalInfoForm'? null : <Button onButtonClicked={this.previousForm} color="#D54545" text="back" hoverColor="#B63B3B"/>}
                 </ContentContainer>
             </MainContainer>
