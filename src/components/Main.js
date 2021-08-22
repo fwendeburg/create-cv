@@ -63,6 +63,7 @@ class Main extends React.Component {
         this.setState({currentForm: this.state.forms[currentFormIndex - 1]});
     }
 
+    // Form validation Functions, not used anymore.
     verifyInputValidity() {
         let inputsValid = true;
 
@@ -79,7 +80,6 @@ class Main extends React.Component {
 
         requiredInputs.forEach(input => {
             const emailRegEx = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            let today = new Date();
 
             if (input.type !== 'text') {
                 if ((input.type === 'number' || input.type === 'tel') && /[A-Za-z]/.test(input.value)) {
@@ -148,7 +148,7 @@ class Main extends React.Component {
 
                 <ContentContainer>
                     {this.state.currentForm === 'WorkExpForm'? <Button color="#21BA45" text="generate pdf" hoverColor="#1FA83F"/> : null}
-                    {this.state.currentForm === 'WorkExpForm'? null : <Button onButtonClicked={this.handleNextBtnCLick} color="#21BA45" text="next" hoverColor="#1FA83F"/>}
+                    {this.state.currentForm === 'WorkExpForm'? null : <Button onButtonClicked={this.nextForm} color="#21BA45" text="next" hoverColor="#1FA83F"/>}
                     {this.state.currentForm === 'PersonalInfoForm'? null : <Button onButtonClicked={this.previousForm} color="#D54545" text="back" hoverColor="#B63B3B"/>}
                 </ContentContainer>
             </MainContainer>

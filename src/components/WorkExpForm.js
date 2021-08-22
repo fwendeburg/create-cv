@@ -10,11 +10,11 @@ class WorkExpForm extends React.Component {
                 <FormTitle>Work Experience</FormTitle>
                 <InputContainer>
                     <InputLabel htmlFor="position">Position*</InputLabel>
-                    <TextInput type="text" id="position" required/>
+                    <TextInput type="text" id="position"/>
                 </InputContainer>
                 <InputContainer>
                     <InputLabel htmlFor="company">Company*</InputLabel>
-                    <TextInput type="text" id="company" required/>
+                    <TextInput type="text" id="company"/>
                 </InputContainer>
                 <InputContainer>
                     <InputLabel htmlFor="city">City</InputLabel>
@@ -22,7 +22,7 @@ class WorkExpForm extends React.Component {
                 </InputContainer>
                 <InputContainer>
                     <InputLabel htmlFor="from">From*</InputLabel>
-                    <TextInput type="date" id="from" required/>
+                    <TextInput type="date" id="from"/>
                 </InputContainer>
                 <InputContainer>
                     <InputLabel htmlFor="to">To (leave empty for ongoing)</InputLabel>
@@ -30,7 +30,7 @@ class WorkExpForm extends React.Component {
                 </InputContainer>
                 <InputContainer>
                     <InputLabel htmlFor="description">Description or Achievements*</InputLabel>
-                    <TextArea id="description" required/>
+                    <TextArea id="description"/>
                 </InputContainer>
                 <ButtonContainer>
                     <Button text="add work experience" color="blue" colorHover="white" />
