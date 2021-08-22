@@ -1,19 +1,33 @@
 import React from 'react';
 
 import Button from './Button';
-import { FormTitle, InputContainer, TextInput, TextArea, InputLabel, ButtonContainer } from './FormComponents';
+import { InputContainer, TextInput, TextArea, InputLabel, ButtonContainer, FormContainer } from './FormComponents';
 
 class WorkExpForm extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.handleBtnClick = this.handleBtnClick.bind(this);
+
+        this.state = {btnMode: 'normal'};
+    }
+
+    handleBtnClick(e) {
+        // Add button to remove form.
+        this.setState({btnMode: 'delete'});
+
+        this.props.addWorkExpForm();
+    }
+
     render() {
         return (
-            <>
-                <FormTitle>Work Experience</FormTitle>
+            <FormContainer id={this.props.formId} >
                 <InputContainer>
-                    <InputLabel htmlFor="position">Position*</InputLabel>
+                    <InputLabel htmlFor="position">Position</InputLabel>
                     <TextInput type="text" id="position"/>
                 </InputContainer>
                 <InputContainer>
-                    <InputLabel htmlFor="company">Company*</InputLabel>
+                    <InputLabel htmlFor="company">Company</InputLabel>
                     <TextInput type="text" id="company"/>
                 </InputContainer>
                 <InputContainer>
@@ -21,7 +35,7 @@ class WorkExpForm extends React.Component {
                     <TextInput type="text" id="city"/>
                 </InputContainer>
                 <InputContainer>
-                    <InputLabel htmlFor="from">From*</InputLabel>
+                    <InputLabel htmlFor="from">From</InputLabel>
                     <TextInput type="date" id="from"/>
                 </InputContainer>
                 <InputContainer>
@@ -29,13 +43,13 @@ class WorkExpForm extends React.Component {
                     <TextInput type="date" id="to"/>
                 </InputContainer>
                 <InputContainer>
-                    <InputLabel htmlFor="description">Description or Achievements*</InputLabel>
+                    <InputLabel htmlFor="description">Description or Achievements</InputLabel>
                     <TextArea id="description"/>
                 </InputContainer>
                 <ButtonContainer>
-                    <Button text="add work experience" color="blue" colorHover="white" />
+                    {this.state.btnMode === 'normal'? <Button text="add work experience" color="#333333" colorHover="#242424" onButtonClicked={this.handleBtnClick} /> : <Button text="delete work experience" color="#333333" colorHover="#242424" onButtonClicked={this.props.deleteWorkForm} />}
                 </ButtonContainer>
-            </>
+            </FormContainer>
         );
     }
 }

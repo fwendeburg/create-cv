@@ -32,4 +32,8 @@ const ButtonContainer = styled.div`
     width: 100%;
 `
 
-export { FormTitle, InputContainer, TextInput, TextArea, InputLabel, ButtonContainer };
+const FormContainer = styled.div`
+    width: 100%;
+`
+
+export { FormTitle, InputContainer, TextInput, TextArea, InputLabel, ButtonContainer, FormContainer };

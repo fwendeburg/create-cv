@@ -1,10 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
+import uniqid from 'uniqid';
 
 import Button from './Button';
 import PersonalInfoForm from './PersonalInfoForm';
 import EducationForm from './EducationForm';
 import WorkExpForm from './WorkExpForm';
+import { FormTitle } from './FormComponents';
 
 
 const MainContainer = styled.div`
@@ -34,13 +36,19 @@ class Main extends React.Component {
     constructor(props) {
         super(props)
 
+        this.deleteEduForm = this.deleteEduForm.bind(this);
+        this.deleteWorkForm = this.deleteWorkForm.bind(this);
+        this.addWorkExpForm = this.addWorkExpForm.bind(this);
+        this.addEduForm = this.addEduForm.bind(this);
+        this.nextForm = this.nextForm.bind(this);
+        this.previousForm = this.previousForm.bind(this);
+
         this.state = {
             forms: ['PersonalInfoForm', 'EducationForm', 'WorkExpForm'],
-            currentForm: 'PersonalInfoForm'
+            currentForm: 'PersonalInfoForm',
+            eduForms: [<EducationForm addEduForm={this.addEduForm} key="0" formId={uniqid()} deleteEduForm={this.deleteEduForm}/>],
+            workExpForms: [<WorkExpForm addWorkExpForm={this.addWorkExpForm} key="0" formId={uniqid()} deleteWorkForm={this.deleteWorkForm}/>]
         };
-
-        this.handleNextBtnCLick = this.handleNextBtnCLick.bind(this);
-        this.previousForm = this.previousForm.bind(this);
     }
 
     getFormIndex(form) {
@@ -63,7 +71,7 @@ class Main extends React.Component {
         this.setState({currentForm: this.state.forms[currentFormIndex - 1]});
     }
 
-    // Form validation Functions, not used anymore.
+    // Form validation fns, not used anymore.
     verifyInputValidity() {
         let inputsValid = true;
 
@@ -136,14 +144,57 @@ class Main extends React.Component {
             this.showInvalidInputs(areInputsValid.invalidInputs);
         }
     }
+    // End form valdiation fns.
+
+    addEduForm() {
+        this.setState({eduForms: [...this.state.eduForms, <EducationForm addEduForm={this.addEduForm} key={this.state.eduForms.length} formId={uniqid()} deleteEduForm={this.deleteEduForm}/>]});
+    }
+
+    addWorkExpForm() {
+        this.setState({workExpForms: [...this.state.workExpForms, <WorkExpForm addWorkExpForm={this.addWorkExpForm} key={this.state.workExpForms.length} formId={uniqid()} deleteWorkForm={this.deleteWorkForm}/>]});
+    }
+
+    deleteWorkForm(e) {
+        let formId = e.target.parentNode.parentNode.id;
+
+        this.setState((prevState) => ({
+            workExpForms: prevState.workExpForms.filter(f => f.props.formId !== formId)
+        })); 
+    }
+
+    deleteEduForm(e) {
+        let formId = e.target.parentNode.parentNode.id;
+
+        this.setState((prevState) => ({
+            eduForms: prevState.eduForms.filter(f => f.props.formId !== formId)
+        })); 
+    }
+
+    showEduForms() {
+        return (
+            <>
+                <FormTitle>Education</FormTitle>
+                {this.state.eduForms}
+            </>
+        );
+    }
+
+    showWorkExpForms() {
+        return (
+            <>
+                <FormTitle>Work Experience</FormTitle>
+                {this.state.workExpForms}
+            </>
+        );
+    }
 
     render() {
         return (
             <MainContainer>
                 <ContentContainer>
                     {this.state.currentForm === 'PersonalInfoForm'? <PersonalInfoForm /> : null}
-                    {this.state.currentForm === 'EducationForm'? <EducationForm /> : null}
-                    {this.state.currentForm === 'WorkExpForm'? <WorkExpForm /> : null}
+                    {this.state.currentForm === 'EducationForm'? this.showEduForms() : null}
+                    {this.state.currentForm === 'WorkExpForm'? this.showWorkExpForms() : null}
                 </ContentContainer>
 
                 <ContentContainer>
