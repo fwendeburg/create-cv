@@ -36,41 +36,42 @@ class Main extends React.Component {
     constructor(props) {
         super(props)
 
+        this.handleBackBtnClick = this.handleBackBtnClick.bind(this);
         this.handleNextBtnCLick = this.handleNextBtnCLick.bind(this);
         this.deleteEduForm = this.deleteEduForm.bind(this);
         this.deleteWorkForm = this.deleteWorkForm.bind(this);
         this.addWorkExpForm = this.addWorkExpForm.bind(this);
         this.addEduForm = this.addEduForm.bind(this);
-        this.nextForm = this.nextForm.bind(this);
-        this.previousForm = this.previousForm.bind(this);
+        this.nextFormType = this.nextFormType.bind(this);
+        this.previousFormType = this.previousFormType.bind(this);
 
         this.state = {
-            form: ['PersonalInfoForm', 'EducationForm', 'WorkExpForm'],
-            currentForm: 'PersonalInfoForm',
+            formTypes: ['PersonalInfoForm', 'EducationForm', 'WorkExpForm'],
+            currentFormType: 'PersonalInfoForm',
             personalForm: <PersonalInfoForm values={{}}/>,
             eduForms: [<EducationForm addEduForm={this.addEduForm} key="0" formId={uniqid()} deleteEduForm={this.deleteEduForm} values={{}}/>],
-            workExpForms: [<WorkExpForm addWorkExpForm={this.addWorkExpForm} key="0" formId={uniqid()} deleteWorkForm={this.deleteWorkForm}/>],
+            workExpForms: [<WorkExpForm addWorkExpForm={this.addWorkExpForm} key="0" formId={uniqid()} deleteWorkForm={this.deleteWorkForm} values={{}}/>],
         };
     }
 
-    getFormIndex(form) {
-        for (let i = 0; i < this.state.forms.length; i++) {
-            if (form === this.state.forms[i]) {
+    getFormTypeIndex(formType) {
+        for (let i = 0; i < this.state.formTypes.length; i++) {
+            if (formType === this.state.formTypes[i]) {
                 return i;
             }
         }
     }
 
-    nextForm() {
-        let currentFormIndex = this.getFormIndex(this.state.currentForm);
+    nextFormType() {
+        let currentFormTypeIndex = this.getFormTypeIndex(this.state.currentFormType);
         
-        this.setState({currentForm: this.state.forms[currentFormIndex + 1]});
+        this.setState({currentFormType: this.state.formTypes[currentFormTypeIndex + 1]});
     }
 
-    previousForm() {
-        let currentFormIndex = this.getFormIndex(this.state.currentForm);
+    previousFormType() {
+        let currentFormTypeIndex = this.getFormTypeIndex(this.state.currentFormType);
         
-        this.setState({currentForm: this.state.forms[currentFormIndex - 1]});
+        this.setState({currentFormType: this.state.formTypes[currentFormTypeIndex - 1]});
     }
 
     addEduForm() {
@@ -78,7 +79,7 @@ class Main extends React.Component {
     }
 
     addWorkExpForm() {
-        this.setState({workExpForms: [...this.state.workExpForms, <WorkExpForm addWorkExpForm={this.addWorkExpForm} key={this.state.workExpForms.length} formId={uniqid()} deleteWorkForm={this.deleteWorkForm}/>]});
+        this.setState({workExpForms: [...this.state.workExpForms, <WorkExpForm addWorkExpForm={this.addWorkExpForm} key={this.state.workExpForms.length} formId={uniqid()} deleteWorkForm={this.deleteWorkForm} values={{}}/>]});
     }
 
     deleteWorkForm(e) {
@@ -124,10 +125,76 @@ class Main extends React.Component {
         );
     }
 
+    getEduFormIndex(formId) {
+        for (let i = 0; i < this.state.eduForms.length; i++) {
+            if (this.state.eduForms[i].props.formId === formId) {
+                return i;
+            }
+        }
+    }
+
+    getWorkExpFormIndex(formId) {
+        for (let i = 0; i < this.state.workExpForms.length; i++) {
+            if (this.state.workExpForms[i].props.formId === formId) {
+                return i;
+            }
+        }
+    }
+
+    replaceEduForm(valuesObj) {
+        let eduFormIndex = this.getEduFormIndex(valuesObj.formId);
+        let ogEduForm = this.state.eduForms[eduFormIndex];
+
+        let newFormProps = {
+            ...ogEduForm.props,
+            values: valuesObj
+        }
+
+        let newForm = {
+            ...ogEduForm,
+            props: newFormProps
+        }
+        
+        this.setState(prevState => ({
+            eduForms: prevState.eduForms.map(form => {
+                if (form.props.formId === newForm.props.formId) {
+                    form = newForm;
+                }
+
+                return form;
+            })
+        }))
+    }
+
+    replaceWorkExpForm(valuesObj) {
+        let workExpFormIndex = this.getWorkExpFormIndex(valuesObj.formId);
+        let ogWorkExpForm = this.state.workExpForms[workExpFormIndex];
+
+        let newFormProps = {
+            ...ogWorkExpForm.props,
+            values: valuesObj
+        }
+
+        let newForm = {
+            ...ogWorkExpForm,
+            props: newFormProps
+        }
+        
+        this.setState(prevState => ({
+            workExpForms: prevState.workExpForms.map(form => {
+                if (form.props.formId === newForm.props.formId) {
+                    form = newForm;
+                }
+
+                return form;
+            })
+        }))
+    }
+
     handleNextBtnCLick() {
         let valuesObj;
 
-        if (this.state.currentForm === 'PersonalInfoForm') {
+        if (this.state.currentFormType === 'PersonalInfoForm') {
             valuesObj = {
                 name: document.querySelector("#first-name").value,
                 lname: document.querySelector("#last-name").value,
@@ -139,41 +206,100 @@ class Main extends React.Component {
 
             this.setState({personalForm: <PersonalInfoForm values={valuesObj}/>});
         }
-        else if (this.state.currentForm === 'EducationForm') {
+        else if (this.state.currentFormType === 'EducationForm') {
             const forms = document.querySelector('#forms').childNodes;
             let valuesObj;
             
             for (let i = 1; i < forms.length; i++) {
                 valuesObj = {
-                    id: forms[i].id,
+                    formId: forms[i].id,
                     degree: document.querySelector("#degree-" + forms[i].id).value,
                     university: document.querySelector("#university-" + forms[i].id).value,
                     gpa: document.querySelector("#gpa-" + forms[i].id).value,
                     from: document.querySelector("#from-" + forms[i].id).value,
                     to: document.querySelector("#to-" + forms[i].id).value,
-                    desciption: document.querySelector("#description-" + forms[i].id).value
+                    description: document.querySelector("#description-" + forms[i].id).value
                 };
 
+                this.replaceEduForm(valuesObj);
+            }
+        }
+        else if (this.state.currentFormType === 'WorkExpForm') {
+            const forms = document.querySelector('#forms').childNodes;
+            let valuesObj;
+            
+            for (let i = 1; i < forms.length; i++) {
+                valuesObj = {
+                    formId: forms[i].id,
+                    position: document.querySelector("#position-" + forms[i].id).value,
+                    company: document.querySelector("#company-" + forms[i].id).value,
+                    city: document.querySelector("#city-" + forms[i].id).value,
+                    from: document.querySelector("#from-" + forms[i].id).value,
+                    to: document.querySelector("#to-" + forms[i].id).value,
+                    description: document.querySelector("#description-" + forms[i].id).value
+                };
 
+                this.replaceWorkExpForm(valuesObj);
             }
         }
 
-        this.nextForm();
+        this.nextFormType();
+    }
+
+    handleBackBtnClick() {
+        if (this.state.currentFormType === 'EducationForm') {
+            const forms = document.querySelector('#forms').childNodes;
+            let valuesObj;
+            
+            for (let i = 1; i < forms.length; i++) {
+                valuesObj = {
+                    formId: forms[i].id,
+                    degree: document.querySelector("#degree-" + forms[i].id).value,
+                    university: document.querySelector("#university-" + forms[i].id).value,
+                    gpa: document.querySelector("#gpa-" + forms[i].id).value,
+                    from: document.querySelector("#from-" + forms[i].id).value,
+                    to: document.querySelector("#to-" + forms[i].id).value,
+                    description: document.querySelector("#description-" + forms[i].id).value
+                };
+
+                this.replaceEduForm(valuesObj);
+            }
+        }
+        else if (this.state.currentFormType === 'WorkExpForm') {
+            const forms = document.querySelector('#forms').childNodes;
+            let valuesObj;
+            
+            for (let i = 1; i < forms.length; i++) {
+                valuesObj = {
+                    formId: forms[i].id,
+                    position: document.querySelector("#position-" + forms[i].id).value,
+                    company: document.querySelector("#company-" + forms[i].id).value,
+                    city: document.querySelector("#city-" + forms[i].id).value,
+                    from: document.querySelector("#from-" + forms[i].id).value,
+                    to: document.querySelector("#to-" + forms[i].id).value,
+                    description: document.querySelector("#description-" + forms[i].id).value
+                };
+
+                this.replaceWorkExpForm(valuesObj);
+            }
+        }
+
+        this.previousFormType();
     }
 
     render() {
         return (
             <MainContainer>
                 <ContentContainer id="forms">
-                    {this.state.currentForm === 'PersonalInfoForm'? this.showPersonalInfoForm() : null}
-                    {this.state.currentForm === 'EducationForm'? this.showEduForms() : null}
-                    {this.state.currentForm === 'WorkExpForm'? this.showWorkExpForms() : null}
+                    {this.state.currentFormType === 'PersonalInfoForm'? this.showPersonalInfoForm() : null}
+                    {this.state.currentFormType === 'EducationForm'? this.showEduForms() : null}
+                    {this.state.currentFormType === 'WorkExpForm'? this.showWorkExpForms() : null}
                 </ContentContainer>
 
                 <ContentContainer>
-                    {this.state.currentForm === 'WorkExpForm'? <Button color="#21BA45" text="generate pdf" hoverColor="#1FA83F"/> : null}
-                    {this.state.currentForm === 'WorkExpForm'? null : <Button onButtonClicked={this.handleNextBtnCLick} color="#21BA45" text="next" hoverColor="#1FA83F"/>}
-                    {this.state.currentForm === 'PersonalInfoForm'? null : <Button onButtonClicked={this.previousForm} color="#D54545" text="back" hoverColor="#B63B3B"/>}
+                    {this.state.currentFormType === 'WorkExpForm'? <Button color="#21BA45" text="generate pdf" hoverColor="#1FA83F"/> : null}
+                    {this.state.currentFormType === 'WorkExpForm'? null : <Button onButtonClicked={this.handleNextBtnCLick} color="#21BA45" text="next" hoverColor="#1FA83F"/>}
+                    {this.state.currentFormType === 'PersonalInfoForm'? null : <Button onButtonClicked={this.handleBackBtnClick} color="#D54545" text="back" hoverColor="#B63B3B"/>}
                 </ContentContainer>
             </MainContainer>
         );

@@ -24,27 +24,27 @@ class WorkExpForm extends React.Component {
             <FormContainer id={this.props.formId} >
                 <InputContainer>
                     <InputLabel htmlFor="position">Position</InputLabel>
-                    <TextInput type="text" id="position"/>
+                    <TextInput type="text" id={"position-" + this.props.formId} defaultValue={this.props.values.position}/>
                 </InputContainer>
                 <InputContainer>
                     <InputLabel htmlFor="company">Company</InputLabel>
-                    <TextInput type="text" id="company"/>
+                    <TextInput type="text" id={"company-" + this.props.formId} defaultValue={this.props.values.company}/>
                 </InputContainer>
                 <InputContainer>
                     <InputLabel htmlFor="city">City</InputLabel>
-                    <TextInput type="text" id="city"/>
+                    <TextInput type="text" id={"city-" + this.props.formId} defaultValue={this.props.values.city}/>
                 </InputContainer>
                 <InputContainer>
                     <InputLabel htmlFor="from">From</InputLabel>
-                    <TextInput type="date" id="from"/>
+                    <TextInput type="date" id={"from-" + this.props.formId} defaultValue={this.props.values.from}/>
                 </InputContainer>
                 <InputContainer>
                     <InputLabel htmlFor="to">To (leave empty for ongoing)</InputLabel>
-                    <TextInput type="date" id="to"/>
+                    <TextInput type="date" id={"to-" + this.props.formId} defaultValue={this.props.values.to}/>
                 </InputContainer>
                 <InputContainer>
                     <InputLabel htmlFor="description">Description or Achievements</InputLabel>
-                    <TextArea id="description"/>
+                    <TextArea id={"description-" + this.props.formId} defaultValue={this.props.values.description}/>
                 </InputContainer>
                 <ButtonContainer>
                     {this.state.btnMode === 'normal'? <Button text="add work experience" color="#333333" colorHover="#242424" onButtonClicked={this.handleBtnClick} /> : <Button text="delete work experience" color="#333333" colorHover="#242424" onButtonClicked={this.props.deleteWorkForm} />}
