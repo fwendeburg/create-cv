@@ -4,21 +4,6 @@ import Button from './Button';
 import { InputContainer, TextInput, TextArea, InputLabel, ButtonContainer, FormContainer } from './FormComponents';
 
 class WorkExpForm extends React.Component {
-    constructor(props) {
-        super(props);
-
-        this.handleBtnClick = this.handleBtnClick.bind(this);
-
-        this.state = {btnMode: 'normal'};
-    }
-
-    handleBtnClick(e) {
-        // Add button to remove form.
-        this.setState({btnMode: 'delete'});
-
-        this.props.addWorkExpForm();
-    }
-
     render() {
         return (
             <FormContainer id={this.props.formId} >
@@ -47,7 +32,7 @@ class WorkExpForm extends React.Component {
                     <TextArea id={"description-" + this.props.formId} defaultValue={this.props.values.description}/>
                 </InputContainer>
                 <ButtonContainer>
-                    {this.state.btnMode === 'normal'? <Button text="add work experience" color="#333333" colorHover="#242424" onButtonClicked={this.handleBtnClick} /> : <Button text="delete work experience" color="#333333" colorHover="#242424" onButtonClicked={this.props.deleteWorkForm} />}
+                    <Button text="delete work experience" color="#333333" colorHover="#242424" onButtonClicked={this.props.deleteWorkForm} />
                 </ButtonContainer>
             </FormContainer>
         );

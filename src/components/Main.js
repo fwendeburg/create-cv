@@ -297,6 +297,8 @@ class Main extends React.Component {
                 </ContentContainer>
 
                 <ContentContainer>
+                    {this.state.currentFormType === 'EducationForm'? <Button text="add education" color="#333333" colorHover="#242424" onButtonClicked={this.addEduForm}/> : null}
+                    {this.state.currentFormType === 'WorkExpForm'? <Button text="add work experience" color="#333333" colorHover="#242424" onButtonClicked={this.addWorkExpForm}/> : null}
                     {this.state.currentFormType === 'WorkExpForm'? <Button color="#21BA45" text="generate pdf" hoverColor="#1FA83F"/> : null}
                     {this.state.currentFormType === 'WorkExpForm'? null : <Button onButtonClicked={this.handleNextBtnCLick} color="#21BA45" text="next" hoverColor="#1FA83F"/>}
                     {this.state.currentFormType === 'PersonalInfoForm'? null : <Button onButtonClicked={this.handleBackBtnClick} color="#D54545" text="back" hoverColor="#B63B3B"/>}
