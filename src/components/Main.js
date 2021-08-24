@@ -36,6 +36,7 @@ class Main extends React.Component {
     constructor(props) {
         super(props)
 
+        this.handleGenPDFBtn = this.handleGenPDFBtn.bind(this);
         this.handleBackBtnClick = this.handleBackBtnClick.bind(this);
         this.handleNextBtnCLick = this.handleNextBtnCLick.bind(this);
         this.deleteEduForm = this.deleteEduForm.bind(this);
@@ -287,9 +288,63 @@ class Main extends React.Component {
         this.previousFormType();
     }
 
+    getWorkExpInfo() {
+        let info = [];
+
+        const forms = document.querySelector('#forms').childNodes;
+        let valuesObj;
+
+        console.log(this.state.workExpForms)
+
+        for (let i = 1; i < forms.length; i++) {
+            valuesObj = {
+                formId: forms[i].id,
+                position: document.querySelector("#position-" + forms[i].id).value,
+                company: document.querySelector("#company-" + forms[i].id).value,
+                city: document.querySelector("#city-" + forms[i].id).value,
+                from: document.querySelector("#from-" + forms[i].id).value,
+                to: document.querySelector("#to-" + forms[i].id).value,
+                description: document.querySelector("#description-" + forms[i].id).value
+            };
+
+            this.replaceWorkExpForm(valuesObj);
+        }
+
+        console.log(this.state.workExpForms)
+
+        this.state.workExpForms.forEach(form => {
+            info.push(form.props.values);
+        });
+
+        return info;
+    }
+
+    getEduInfo() {
+        let info = [];
+
+        this.state.eduForms.forEach(form => {
+            info.push(form.props.values);
+        });
+
+        return info;
+    }
+
+    handleGenPDFBtn() {
+        let workExpInfo = this.getWorkExpInfo();
+        let eduInfo = this.getEduInfo();
+
+        let infoObj = {
+            personalInfo: this.state.personalForm.props.values,
+            workExpInfo: workExpInfo,
+            eduInfo: eduInfo
+        }
+
+        this.props.enterPrintModeFn(infoObj);
+    }
+
     render() {
         return (
-            <MainContainer>
+            <MainContainer id="content-container">
                 <ContentContainer id="forms">
                     {this.state.currentFormType === 'PersonalInfoForm'? this.showPersonalInfoForm() : null}
                     {this.state.currentFormType === 'EducationForm'? this.showEduForms() : null}
@@ -299,7 +354,7 @@ class Main extends React.Component {
                 <ContentContainer>
                     {this.state.currentFormType === 'EducationForm'? <Button text="add education" color="#333333" colorHover="#242424" onButtonClicked={this.addEduForm}/> : null}
                     {this.state.currentFormType === 'WorkExpForm'? <Button text="add work experience" color="#333333" colorHover="#242424" onButtonClicked={this.addWorkExpForm}/> : null}
-                    {this.state.currentFormType === 'WorkExpForm'? <Button color="#21BA45" text="generate pdf" hoverColor="#1FA83F"/> : null}
+                    {this.state.currentFormType === 'WorkExpForm'? <Button onButtonClicked={this.handleGenPDFBtn} color="#21BA45" text="generate pdf" hoverColor="#1FA83F"/> : null}
                     {this.state.currentFormType === 'WorkExpForm'? null : <Button onButtonClicked={this.handleNextBtnCLick} color="#21BA45" text="next" hoverColor="#1FA83F"/>}
                     {this.state.currentFormType === 'PersonalInfoForm'? null : <Button onButtonClicked={this.handleBackBtnClick} color="#D54545" text="back" hoverColor="#B63B3B"/>}
                 </ContentContainer>

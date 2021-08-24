@@ -24,7 +24,7 @@ const FooterLink = styled.a`
 class Footer extends React.Component {
     render() {
         return (
-            <FooterContainer>
+            <FooterContainer id="footer">
                 <FooterText>Made by <FooterLink href="https://github.com/fwendeburg">Francisco Wendeburg</FooterLink></FooterText>
             </FooterContainer>
         );

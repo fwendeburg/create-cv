@@ -23,7 +23,7 @@ const NavbarTitle = styled.h1`
 class Navbar extends React.Component {
     render() {
         return (
-            <NavbarContainer>
+            <NavbarContainer id="navbar">
                 <NavbarTitle>CV Builder</NavbarTitle>
             </NavbarContainer>
         );
