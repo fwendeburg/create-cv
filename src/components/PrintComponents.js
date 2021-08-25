@@ -11,7 +11,7 @@ const Background = styled.div`
 `
 
 const Header = styled.div`
-    height: min(15vh, max-content);
+    height: max(15vh, max-content);
     width: 80%;
     border-bottom: 3px solid #b0ccd4;
     display: flex;
@@ -50,7 +50,7 @@ const Description = styled.p`
     text-align: justify;
 `
 
-const InfoListContiner = styled.div`
+const InfoListContainer = styled.div`
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -95,7 +95,7 @@ const ExpDescription = styled.p`
 
 const InfoHeaderAndTime = styled.p`
     font-size: 17px;
-    font-weight: 500;
+    font-weight: 700;
 `
 
 const InfoWhere = styled.p`
@@ -126,7 +126,7 @@ const OtherInfoText = styled.p`
     font-size: 16px;
 `
 
-export {Background, Header, FullName, Position, Body, Description, InfoListContiner,
+export {Background, Header, FullName, Position, Body, Description, InfoListContainer,
     SectionHeader, InfoContainer, HorizontalInfoContainer, HorInfoContFlexEnd,
     ExpDescription, InfoHeaderAndTime, InfoWhere, OtherInfoContainer, OtherInfoGroup,
-OtherInfoText, MaterialiInconsStyles}
+OtherInfoText}

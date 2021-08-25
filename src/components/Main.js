@@ -189,7 +189,7 @@ class Main extends React.Component {
 
                 return form;
             })
-        }))
+        }));
     }
 
     handleNextBtnCLick() {
@@ -216,7 +216,6 @@ class Main extends React.Component {
                     formId: forms[i].id,
                     degree: document.querySelector("#degree-" + forms[i].id).value,
                     university: document.querySelector("#university-" + forms[i].id).value,
-                    gpa: document.querySelector("#gpa-" + forms[i].id).value,
                     from: document.querySelector("#from-" + forms[i].id).value,
                     to: document.querySelector("#to-" + forms[i].id).value,
                     description: document.querySelector("#description-" + forms[i].id).value
@@ -234,7 +233,6 @@ class Main extends React.Component {
                     formId: forms[i].id,
                     position: document.querySelector("#position-" + forms[i].id).value,
                     company: document.querySelector("#company-" + forms[i].id).value,
-                    city: document.querySelector("#city-" + forms[i].id).value,
                     from: document.querySelector("#from-" + forms[i].id).value,
                     to: document.querySelector("#to-" + forms[i].id).value,
                     description: document.querySelector("#description-" + forms[i].id).value
@@ -257,7 +255,6 @@ class Main extends React.Component {
                     formId: forms[i].id,
                     degree: document.querySelector("#degree-" + forms[i].id).value,
                     university: document.querySelector("#university-" + forms[i].id).value,
-                    gpa: document.querySelector("#gpa-" + forms[i].id).value,
                     from: document.querySelector("#from-" + forms[i].id).value,
                     to: document.querySelector("#to-" + forms[i].id).value,
                     description: document.querySelector("#description-" + forms[i].id).value
@@ -267,41 +264,21 @@ class Main extends React.Component {
             }
         }
         else if (this.state.currentFormType === 'WorkExpForm') {
-            const forms = document.querySelector('#forms').childNodes;
-            let valuesObj;
-            
-            for (let i = 1; i < forms.length; i++) {
-                valuesObj = {
-                    formId: forms[i].id,
-                    position: document.querySelector("#position-" + forms[i].id).value,
-                    company: document.querySelector("#company-" + forms[i].id).value,
-                    city: document.querySelector("#city-" + forms[i].id).value,
-                    from: document.querySelector("#from-" + forms[i].id).value,
-                    to: document.querySelector("#to-" + forms[i].id).value,
-                    description: document.querySelector("#description-" + forms[i].id).value
-                };
-
-                this.replaceWorkExpForm(valuesObj);
-            }
+            this.updateWorkExpInfoValues();
         }
 
         this.previousFormType();
     }
 
-    getWorkExpInfo() {
-        let info = [];
-
+    updateWorkExpInfoValues() {
         const forms = document.querySelector('#forms').childNodes;
         let valuesObj;
-
-        console.log(this.state.workExpForms)
 
         for (let i = 1; i < forms.length; i++) {
             valuesObj = {
                 formId: forms[i].id,
                 position: document.querySelector("#position-" + forms[i].id).value,
                 company: document.querySelector("#company-" + forms[i].id).value,
-                city: document.querySelector("#city-" + forms[i].id).value,
                 from: document.querySelector("#from-" + forms[i].id).value,
                 to: document.querySelector("#to-" + forms[i].id).value,
                 description: document.querySelector("#description-" + forms[i].id).value
@@ -309,8 +286,10 @@ class Main extends React.Component {
 
             this.replaceWorkExpForm(valuesObj);
         }
+    }
 
-        console.log(this.state.workExpForms)
+    getWorkExpInfo() {
+        let info = [];
 
         this.state.workExpForms.forEach(form => {
             info.push(form.props.values);
@@ -329,7 +308,9 @@ class Main extends React.Component {
         return info;
     }
 
-    handleGenPDFBtn() {
+    async handleGenPDFBtn() {
+        await this.updateWorkExpInfoValues();
+
         let workExpInfo = this.getWorkExpInfo();
         let eduInfo = this.getEduInfo();
 

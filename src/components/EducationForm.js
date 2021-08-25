@@ -16,10 +16,6 @@ class EducationForm extends React.Component {
                     <TextInput type="text" id={"university-" + this.props.formId} defaultValue={this.props.values.university}/>
                 </InputContainer>
                 <InputContainer>
-                    <InputLabel htmlFor="gpa">GPA</InputLabel>
-                    <TextInput type="number" step="0.01" min="0.00" max="10.0" id={"gpa-" + this.props.formId} defaultValue={this.props.values.gpa}/>
-                </InputContainer>
-                <InputContainer>
                     <InputLabel htmlFor="from">From</InputLabel>
                     <TextInput type="date" id={"from-" + this.props.formId} defaultValue={this.props.values.from}/>
                 </InputContainer>

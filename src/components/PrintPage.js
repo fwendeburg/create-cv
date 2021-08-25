@@ -1,12 +1,14 @@
 import React from 'react';
-import styled from 'styled-components';
 
+import IconInfoContainer from './IconInfoContainer';
+import ListedInfoContainer from './ListedInfoContainer';
+
+import { Background, Header, FullName, Position, Body, Description,
+    InfoListContainer, SectionHeader, OtherInfoContainer } from './PrintComponents';
 
 class PrintPage extends React.Component {
     render() {
         const {personalInfo, eduInfo, workExpInfo} = this.props.info;
-
-        console.log(personalInfo);
 
         return (
             <Background id="print-page">
@@ -17,51 +19,26 @@ class PrintPage extends React.Component {
                     </div>
                     <div>
                         <OtherInfoContainer>
-                            <OtherInfoGroup>
-                                <span class="material-icons" style={MaterialiInconsStyles}>mail</span>
-                                <OtherInfoText>{personalInfo.email}</OtherInfoText>
-                            </OtherInfoGroup>
-                            <OtherInfoGroup>
-                                <span class="material-icons" style={MaterialiInconsStyles}>call</span>
-                                <OtherInfoText>{personalInfo.pnumber}</OtherInfoText>
-                            </OtherInfoGroup>
-                            <OtherInfoGroup>
-                                <span class="material-icons" style={MaterialiInconsStyles}>location_on</span>
-                                <OtherInfoText>{personalInfo.adress}</OtherInfoText>
-                            </OtherInfoGroup>
+                            {personalInfo.email? <IconInfoContainer info={personalInfo.email} icon='mail'/> : null}
+                            {personalInfo.pnumber? <IconInfoContainer info={personalInfo.pnumber} icon='call'/> : null}
+                            {personalInfo.adress? <IconInfoContainer info={personalInfo.adress} icon='location_on'/> : null}
                         </OtherInfoContainer>
                     </div>
                 </Header>
                 <Body>
                     <Description>{personalInfo.description}</Description>
-                    <InfoListContiner>
+                    <InfoListContainer>
+                        <SectionHeader>Education</SectionHeader>
+                        {eduInfo.map(values => {
+                            return <ListedInfoContainer header={values.degree} where={values.university} from={values.from} to={values.to} description={values.description}/>
+                        })}
+                    </InfoListContainer>
+                    <InfoListContainer>
                         <SectionHeader>Work Experience</SectionHeader>
-                        <InfoContainer>
-                            <HorizontalInfoContainer>
-                                <InfoHeaderAndTime>Software Nigga</InfoHeaderAndTime>
-                                <HorInfoContFlexEnd>
-                                    <InfoWhere>A nigga Company!</InfoWhere><span>{'\u00A0'}|{'\u00A0'}</span><InfoHeaderAndTime>2018-2020</InfoHeaderAndTime>
-                                </HorInfoContFlexEnd>
-                            </HorizontalInfoContainer>
-                            <ExpDescription>
-                            TEstehjifhjklfskljgklfjklsfjsklñdfjsklajflskgjhasjflñgdfngdfgkldfg
-                            </ExpDescription>
-                        </InfoContainer>
-                    </InfoListContiner>
-                    <InfoListContiner>
-                    <SectionHeader>Education</SectionHeader>
-                        <InfoContainer>
-                            <HorizontalInfoContainer>
-                                <InfoHeaderAndTime>Software Nigga</InfoHeaderAndTime>
-                                <HorInfoContFlexEnd>
-                                    <InfoWhere>A nigga Company!</InfoWhere><span>{'\u00A0'}|{'\u00A0'}</span><InfoHeaderAndTime>2018-2020</InfoHeaderAndTime>
-                                </HorInfoContFlexEnd>
-                            </HorizontalInfoContainer>
-                            <ExpDescription>
-                            TEstehjifhjklfskljgklfjklsfjsklñdfjsklajflskgjhasjflñgdfngdfgkldfg
-                            </ExpDescription>
-                        </InfoContainer>
-                    </InfoListContiner>
+                        {workExpInfo.map(values => {
+                            return <ListedInfoContainer header={values.position} where={values.company} from={values.from} to={values.to} description={values.description}/>
+                        })}
+                    </InfoListContainer>
                 </Body>
             </Background>
         );

@@ -16,10 +16,6 @@ class WorkExpForm extends React.Component {
                     <TextInput type="text" id={"company-" + this.props.formId} defaultValue={this.props.values.company}/>
                 </InputContainer>
                 <InputContainer>
-                    <InputLabel htmlFor="city">City</InputLabel>
-                    <TextInput type="text" id={"city-" + this.props.formId} defaultValue={this.props.values.city}/>
-                </InputContainer>
-                <InputContainer>
                     <InputLabel htmlFor="from">From</InputLabel>
                     <TextInput type="date" id={"from-" + this.props.formId} defaultValue={this.props.values.from}/>
                 </InputContainer>
