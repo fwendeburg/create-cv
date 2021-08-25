@@ -1,0 +1,17 @@
+{
+  "files": {
+    "main.js": "/fwendeburg/cv-application/static/js/main.c97c0250.chunk.js",
+    "main.js.map": "/fwendeburg/cv-application/static/js/main.c97c0250.chunk.js.map",
+    "runtime-main.js": "/fwendeburg/cv-application/static/js/runtime-main.391612e4.js",
+    "runtime-main.js.map": "/fwendeburg/cv-application/static/js/runtime-main.391612e4.js.map",
+    "static/js/2.ac8de2d2.chunk.js": "/fwendeburg/cv-application/static/js/2.ac8de2d2.chunk.js",
+    "static/js/2.ac8de2d2.chunk.js.map": "/fwendeburg/cv-application/static/js/2.ac8de2d2.chunk.js.map",
+    "index.html": "/fwendeburg/cv-application/index.html",
+    "static/js/2.ac8de2d2.chunk.js.LICENSE.txt": "/fwendeburg/cv-application/static/js/2.ac8de2d2.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.391612e4.js",
+    "static/js/2.ac8de2d2.chunk.js",
+    "static/js/main.c97c0250.chunk.js"
+  ]
+}
