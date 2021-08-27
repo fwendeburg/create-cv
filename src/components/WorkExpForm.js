@@ -17,11 +17,11 @@ class WorkExpForm extends React.Component {
                 </InputContainer>
                 <InputContainer>
                     <InputLabel htmlFor="from">From</InputLabel>
-                    <TextInput type="date" id={"from-" + this.props.formId} defaultValue={this.props.values.from}/>
+                    <TextInput id={"from-" + this.props.formId} defaultValue={this.props.values.from}/>
                 </InputContainer>
                 <InputContainer>
-                    <InputLabel htmlFor="to">To (leave empty for ongoing)</InputLabel>
-                    <TextInput type="date" id={"to-" + this.props.formId} defaultValue={this.props.values.to}/>
+                    <InputLabel htmlFor="to">To</InputLabel>
+                    <TextInput id={"to-" + this.props.formId} defaultValue={this.props.values.to}/>
                 </InputContainer>
                 <InputContainer>
                     <InputLabel htmlFor="description">Description or Achievements</InputLabel>

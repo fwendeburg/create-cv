@@ -31,6 +31,7 @@ const Position = styled.h2`
     font-size: 22px;
     font-weight: 400;
     margin-top: 5px;
+    margin-bottom: 10px;
     color: #747f82;
 `
 

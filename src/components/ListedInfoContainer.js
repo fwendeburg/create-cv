@@ -10,7 +10,8 @@ class ListedInfoContainer extends React.Component {
                 <HorizontalInfoContainer>
                     <InfoHeaderAndTime>{this.props.header}</InfoHeaderAndTime>
                     <HorInfoContFlexEnd>
-                        <InfoWhere>{this.props.where}</InfoWhere><span>{'\u00A0'}|{'\u00A0'}</span><InfoHeaderAndTime>{new Date(this.props.from).getFullYear()}-{new Date(this.props.to).getFullYear()}</InfoHeaderAndTime>
+                        <InfoWhere>{this.props.where}</InfoWhere>
+                        {this.props.from? <><span>{'\u00A0'}|{'\u00A0'}</span><InfoHeaderAndTime>{this.props.from}-{this.props.to}</InfoHeaderAndTime></> : null}
                     </HorInfoContFlexEnd>
                 </HorizontalInfoContainer>
                 <ExpDescription>{this.props.description}</ExpDescription>
