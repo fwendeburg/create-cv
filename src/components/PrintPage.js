@@ -28,13 +28,13 @@ class PrintPage extends React.Component {
                 <Body>
                     <Description>{personalInfo.description}</Description>
                     <InfoListContainer>
-                        <SectionHeader>Education</SectionHeader>
+                        {eduInfo.length > 1? <SectionHeader>Education</SectionHeader> : null}
                         {eduInfo.map(values => {
                             return <ListedInfoContainer header={values.degree} where={values.university} from={values.from} to={values.to} description={values.description}/>
                         })}
                     </InfoListContainer>
                     <InfoListContainer>
-                        <SectionHeader>Work Experience</SectionHeader>
+                        {workExpInfo.length > 1? <SectionHeader>Work Experience</SectionHeader> : null}
                         {workExpInfo.map(values => {
                             return <ListedInfoContainer header={values.position} where={values.company} from={values.from} to={values.to} description={values.description}/>
                         })}

@@ -10,7 +10,7 @@ class IconInfoContainer extends React.Component {
     render() {
         return (
             <OtherInfoGroup>
-                <span class="material-icons" style={MaterialiInconsStyles}>{this.props.icon}</span>
+                <span className="material-icons" style={MaterialiInconsStyles}>{this.props.icon}</span>
                 <OtherInfoText>{this.props.info}</OtherInfoText>
             </OtherInfoGroup>
         );
