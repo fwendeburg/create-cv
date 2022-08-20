@@ -1,4 +1,3 @@
-
 # create-cv
 An app that generates a curriculum vitae in pdf format.
 
